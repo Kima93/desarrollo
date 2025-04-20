@@ -1,50 +1,36 @@
-<!-- resources/views/proyectos/edit.blade.php -->
-
 <!DOCTYPE html>
 <html lang="es">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Actualizar Proyecto</title>
-    <style>
-        body { font-family: Arial, sans-serif; padding: 20px; }
-        .form-container { max-width: 500px; margin: 0 auto; background: #f7f7f7; padding: 20px; border-radius: 8px; }
-        .form-group { margin-bottom: 20px; }
-        .form-group label { display: block; margin-bottom: 8px; }
-        .form-group input { width: 100%; padding: 8px; font-size: 16px; border-radius: 4px; border: 1px solid #ccc; }
-        .btn { padding: 10px 20px; font-size: 16px; color: white; background-color: #4CAF50; border: none; border-radius: 4px; cursor: pointer; }
-    </style>
+    <title>Editar Proyecto</title>
+    <!-- Agregar el enlace a Bootstrap -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
 </head>
-<body>
+<body class="bg-light">
+    <div class="container">
+        <h1 class="mt-5">Editar Proyecto</h1>
 
-    <div class="form-container">
-        <h2>Actualizar Proyecto</h2>
-        <form action="{{ route('proyectos.update', $proyecto['id']) }}" method="POST">
+        <form method="POST" action="{{ route('proyectos.update', $proyecto->id) }}">
             @csrf
             @method('PUT')
-            <div class="form-group">
-                <label for="nombre">Nombre</label>
-                <input type="text" id="nombre" name="nombre" value="{{ $proyecto['nombre'] }}" required>
+
+            <div class="mb-3">
+                <label for="nombre" class="form-label">Nombre del Proyecto</label>
+                <input type="text" class="form-control" id="nombre" name="nombre" value="{{ $proyecto->nombre }}" required>
             </div>
-            <div class="form-group">
-                <label for="fecha_inicio">Fecha de Inicio</label>
-                <input type="date" id="fecha_inicio" name="fecha_inicio" value="{{ $proyecto['fecha_inicio'] }}" required>
+
+            <div class="mb-3">
+                <label for="descripcion" class="form-label">Descripción</label>
+                <textarea class="form-control" id="descripcion" name="descripcion" rows="4" required>{{ $proyecto->descripcion }}</textarea>
             </div>
-            <div class="form-group">
-                <label for="estado">Estado</label>
-                <input type="text" id="estado" name="estado" value="{{ $proyecto['estado'] }}" required>
-            </div>
-            <div class="form-group">
-                <label for="responsable">Responsable</label>
-                <input type="text" id="responsable" name="responsable" value="{{ $proyecto['responsable'] }}" required>
-            </div>
-            <div class="form-group">
-                <label for="monto">Monto</label>
-                <input type="number" id="monto" name="monto" value="{{ $proyecto['monto'] }}" step="0.01" required>
-            </div>
-            <button type="submit" class="btn">Actualizar Proyecto</button>
+
+            <button type="submit" class="btn btn-primary">Actualizar Proyecto</button>
+            <a href="{{ route('proyectos.index') }}" class="btn btn-secondary">Cancelar</a>
         </form>
     </div>
 
+    <!-- Agregar el script de Bootstrap -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>

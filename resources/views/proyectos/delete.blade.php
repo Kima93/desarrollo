@@ -1,27 +1,21 @@
-<!-- resources/views/proyectos/delete.blade.php -->
-
 <!DOCTYPE html>
-<html lang="es">
+<html>
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Eliminar Proyecto</title>
-    <style>
-        body { font-family: Arial, sans-serif; padding: 20px; }
-        .container { text-align: center; }
-        .btn { padding: 10px 20px; font-size: 16px; color: white; background-color: red; border: none; border-radius: 4px; cursor: pointer; }
-    </style>
 </head>
 <body>
+    <h1>¿Estás seguro que deseas eliminar este proyecto?</h1>
 
-    <div class="container">
-        <h2>¿Estás seguro de que deseas eliminar este proyecto?</h2>
-        <form action="{{ route('proyectos.destroy', $proyecto['id']) }}" method="POST">
-            @csrf
-            @method('DELETE')
-            <button type="submit" class="btn">Eliminar Proyecto</button>
-        </form>
-    </div>
+    <p><strong>{{ $proyecto->nombre }}</strong></p>
+    <p>{{ $proyecto->descripcion }}</p>
 
+    <form method="POST" action="{{ route('proyectos.destroy', $proyecto->id) }}">
+        @csrf
+        @method('DELETE')
+        <button type="submit">Eliminar</button>
+    </form>
+
+    <a href="{{ route('proyectos.index') }}">Cancelar</a>
 </body>
 </html>
+

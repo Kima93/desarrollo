@@ -18,3 +18,4 @@ Route::get('/proyectos/{id}/edit', [ProyectoController::class, 'edit'])->name('p
 Route::put('/proyectos/{id}', [ProyectoController::class, 'update'])->name('proyectos.update');
 Route::delete('/proyectos/{id}', [ProyectoController::class, 'destroy'])->name('proyectos.destroy');
 Route::get('/proyectos/{id}', [ProyectoController::class, 'show'])->name('proyectos.show');
+Route::resource('proyectos', ProyectoController::class);

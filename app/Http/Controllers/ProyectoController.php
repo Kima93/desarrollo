@@ -7,80 +7,74 @@ use Illuminate\Http\Request;
 
 class ProyectoController extends Controller
 {
-    // 1. Listar todos los proyectos
+    // Mostrar todos los proyectos
     public function index()
     {
         $proyectos = Proyecto::all();
-        return response()->json($proyectos);
+        return view('proyectos.index', compact('proyectos')); // Devolver la vista de proyectos
     }
 
-    // 2. Crear un nuevo proyecto
+    // Mostrar el formulario para crear un nuevo proyecto
+    public function create()
+    {
+        return view('proyectos.create'); // Vista para crear un nuevo proyecto
+    }
+
+    // Almacenar un nuevo proyecto
     public function store(Request $request)
     {
         $request->validate([
-            'nombre' => 'required|string|max:255',
+            'nombre' => 'required',
+            'descripcion' => 'required',
             'fecha_inicio' => 'required|date',
-            'estado' => 'required|string|max:100',
-            'responsable' => 'required|string|max:255',
+            'estado' => 'required',
+            'responsable' => 'required',
             'monto' => 'required|numeric',
         ]);
 
-        $proyecto = Proyecto::create([
-            'nombre' => $request->nombre,
-            'fecha_inicio' => $request->fecha_inicio,
-            'estado' => $request->estado,
-            'responsable' => $request->responsable,
-            'monto' => $request->monto,
-        ]);
+        Proyecto::create($request->all());
 
-        return response()->json($proyecto, 201);
+        return redirect()->route('proyectos.index'); // Redirigir después de guardar
     }
 
-    // 3. Obtener un proyecto por ID
-    public function show($id)
+    // Mostrar el formulario para editar un proyecto
+    public function edit($id)
     {
-        $proyecto = Proyecto::find($id);
-
-        if (!$proyecto) {
-            return response()->json(['error' => 'Proyecto no encontrado'], 404);
-        }
-
-        return response()->json($proyecto);
+        $proyecto = Proyecto::findOrFail($id);
+        return view('proyectos.edit', compact('proyecto')); // Vista para editar el proyecto
     }
 
-    // 4. Actualizar un proyecto por ID
+    // Actualizar un proyecto
     public function update(Request $request, $id)
     {
-        $proyecto = Proyecto::find($id);
-
-        if (!$proyecto) {
-            return response()->json(['error' => 'Proyecto no encontrado'], 404);
-        }
-
         $request->validate([
-            'nombre' => 'string|max:255',
-            'fecha_inicio' => 'date',
-            'estado' => 'string|max:100',
-            'responsable' => 'string|max:255',
-            'monto' => 'numeric',
+            'nombre' => 'required',
+            'descripcion' => 'required',
+            'fecha_inicio' => 'required|date',
+            'estado' => 'required',
+            'responsable' => 'required',
+            'monto' => 'required|numeric',
         ]);
 
+        $proyecto = Proyecto::findOrFail($id);
         $proyecto->update($request->all());
 
-        return response()->json($proyecto);
+        return redirect()->route('proyectos.index'); // Redirigir después de la actualización
     }
 
-    // 5. Eliminar un proyecto por ID
+    // Eliminar un proyecto
     public function destroy($id)
     {
-        $proyecto = Proyecto::find($id);
-
-        if (!$proyecto) {
-            return response()->json(['error' => 'Proyecto no encontrado'], 404);
-        }
-
+        $proyecto = Proyecto::findOrFail($id);
         $proyecto->delete();
 
-        return response()->json(['message' => 'Proyecto eliminado correctamente']);
+        return redirect()->route('proyectos.index'); // Redirigir después de la eliminación
+    }
+
+    // Mostrar un proyecto específico
+    public function show($id)
+    {
+        $proyecto = Proyecto::findOrFail($id);
+        return view('proyectos.show', compact('proyecto')); // Vista para ver el proyecto
     }
 }
