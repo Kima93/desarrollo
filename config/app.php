@@ -137,6 +137,7 @@ return [
         /*
          * Laravel Framework Service Providers...
          */
+        
         Illuminate\Database\DatabaseServiceProvider::class,
         Illuminate\Cookie\CookieServiceProvider::class,
         Illuminate\Auth\AuthServiceProvider::class,

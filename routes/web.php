@@ -9,6 +9,7 @@ Route::get('/', function () {
     return view('welcome'); 
 });
 
+Route::get('/', [UFController::class, 'mostrarUf']);
 Route::get('/uf-value', [UFController::class, 'getUFValue']);
 Route::get('/proyectos', [ProyectoController::class, 'index'])->name('proyectos.index');
 Route::get('/proyectos/create', [ProyectoController::class, 'create'])->name('proyectos.create');

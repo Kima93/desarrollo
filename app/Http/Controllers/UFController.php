@@ -2,30 +2,22 @@
 
 namespace App\Http\Controllers;
 
-use App\Services\UFService;
+use Illuminate\Support\Facades\Http;
 use Illuminate\Http\Request;
 
-class UFController extends Controller
+class UfController extends Controller
 {
-    protected $ufService;
-
-    
-    public function __construct(UFService $ufService)
+    public function mostrarUf()
     {
-        $this->ufService = $ufService;
-    }
+        $response = Http::get('https://mindicador.cl/api/uf');
 
-   
-    public function getUFValue()
-    {
-        
-        $ufValue = $this->ufService->getUFValue();
-
-        
-        if ($ufValue !== null) {
-            return response()->json(['UFValue' => $ufValue]);
+        if ($response->successful()) {
+            $data = $response->json();
+            $uf = $data['serie'][0]['valor'] ?? 'No disponible';
         } else {
-            return response()->json(['error' => 'No se pudo obtener el valor de la UF.'], 500);
+            $uf = 'No disponible';
         }
+
+        return view('uf-value', compact('uf'));
     }
 }
