@@ -7,59 +7,52 @@ use Illuminate\Http\Request;
 
 class ProyectoController extends Controller
 {
-    // Mostrar todos los proyectos
-    public function index()
+    // ✅ Método para API (respuesta en JSON)
+    public function apiIndex()
+    {
+        return response()->json(Proyecto::all());
+    }
+
+    // Mostrar todos los proyectos (vista)
+    public function index(Request $request)
     {
         $proyectos = Proyecto::all();
-        return view('proyectos.index', compact('proyectos')); // Devolver la vista de proyectos
+        return view('proyectos.index', compact('proyectos'));
     }
 
-    // Mostrar el formulario para crear un nuevo proyecto
+    // Mostrar formulario para crear proyecto
     public function create()
     {
-        return view('proyectos.create'); // Vista para crear un nuevo proyecto
+        return view('proyectos.create');
     }
 
-    // Almacenar un nuevo proyecto
-    public function store(Request $request)
+    // Mostrar un proyecto específico por ID
+    public function show($id)
     {
-        $request->validate([
-            'nombre' => 'required',
-            'descripcion' => 'required',
-            'fecha_inicio' => 'required|date',
-            'estado' => 'required',
-            'responsable' => 'required',
-            'monto' => 'required|numeric',
-        ]);
-
-        Proyecto::create($request->all());
-
-        return redirect()->route('proyectos.index'); // Redirigir después de guardar
+        $proyecto = Proyecto::findOrFail($id);
+        return view('proyectos.show', compact('proyecto'));
     }
 
-    // Mostrar el formulario para editar un proyecto
+    // Mostrar formulario para editar un proyecto
     public function edit($id)
     {
         $proyecto = Proyecto::findOrFail($id);
-        return view('proyectos.edit', compact('proyecto')); // Vista para editar el proyecto
+        return view('proyectos.edit', compact('proyecto'));
+    }
+
+    // Guardar un nuevo proyecto
+    public function store(Request $request)
+    {
+        Proyecto::create($request->all());
+        return redirect('/proyectos');
     }
 
     // Actualizar un proyecto
     public function update(Request $request, $id)
     {
-        $request->validate([
-            'nombre' => 'required',
-            'descripcion' => 'required',
-            'fecha_inicio' => 'required|date',
-            'estado' => 'required',
-            'responsable' => 'required',
-            'monto' => 'required|numeric',
-        ]);
-
         $proyecto = Proyecto::findOrFail($id);
         $proyecto->update($request->all());
-
-        return redirect()->route('proyectos.index'); // Redirigir después de la actualización
+        return redirect('/proyectos');
     }
 
     // Eliminar un proyecto
@@ -67,14 +60,8 @@ class ProyectoController extends Controller
     {
         $proyecto = Proyecto::findOrFail($id);
         $proyecto->delete();
-
-        return redirect()->route('proyectos.index'); // Redirigir después de la eliminación
-    }
-
-    // Mostrar un proyecto específico
-    public function show($id)
-    {
-        $proyecto = Proyecto::findOrFail($id);
-        return view('proyectos.show', compact('proyecto')); // Vista para ver el proyecto
+        return redirect('/proyectos');
     }
 }
+
+

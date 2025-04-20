@@ -1,39 +1,78 @@
-@extends('layouts.app')
-
-@section('content')
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Crear Proyecto</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            background-color: #f4f4f4;
+        }
+        .container {
+            max-width: 600px;
+            margin: 0 auto;
+            background-color: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+        h1 {
+            text-align: center;
+            color: #333;
+        }
+        label {
+            margin-top: 10px;
+            display: block;
+        }
+        input, textarea, button {
+            width: 100%;
+            padding: 10px;
+            margin-top: 5px;
+            margin-bottom: 10px;
+            border-radius: 4px;
+            border: 1px solid #ccc;
+        }
+        button {
+            background-color: #007bff;
+            color: white;
+            border: none;
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
+    </style>
+</head>
+<body>
     <div class="container">
-        <h1>Crear Nuevo Proyecto</h1>
-
-        <form action="{{ route('proyectos.store') }}" method="POST">
+        <h1>Crear Proyecto</h1>
+        <form action="{{ url('/proyectos') }}" method="POST">
             @csrf
-            <div class="form-group">
-                <label for="nombre">Nombre del Proyecto</label>
-                <input type="text" class="form-control" name="nombre" id="nombre" required>
-            </div>
-            <div class="form-group">
-                <label for="descripcion">Descripción</label>
-                <textarea class="form-control" name="descripcion" id="descripcion" required></textarea>
-            </div>
-            <div class="form-group">
-                <label for="fecha_inicio">Fecha de Inicio</label>
-                <input type="date" class="form-control" name="fecha_inicio" id="fecha_inicio" required>
-            </div>
-            <div class="form-group">
-                <label for="estado">Estado</label>
-                <select class="form-control" name="estado" id="estado" required>
-                    <option value="en progreso">En progreso</option>
-                    <option value="finalizado">Finalizado</option>
-                </select>
-            </div>
-            <div class="form-group">
-                <label for="responsable">Responsable</label>
-                <input type="text" class="form-control" name="responsable" id="responsable" required>
-            </div>
-            <div class="form-group">
-                <label for="monto">Monto</label>
-                <input type="number" class="form-control" name="monto" id="monto" required>
-            </div>
-            <button type="submit" class="btn btn-primary">Crear Proyecto</button>
+            <label for="nombre">Nombre:</label>
+            <input type="text" name="nombre" id="nombre" required>
+
+            <label for="descripcion">Descripción:</label>
+            <textarea name="descripcion" id="descripcion" required></textarea>
+
+            <label for="responsable">Responsable:</label>
+            <input type="text" name="responsable" id="responsable" required>
+
+            <label for="fecha_inicio">Fecha de inicio:</label>
+            <input type="date" name="fecha_inicio" id="fecha_inicio" required>
+
+            <label for="monto">Monto:</label>
+            <input type="number" name="monto" id="monto" required>
+
+            <button type="submit">Crear Proyecto</button>
         </form>
     </div>
-@endsection
+</body>
+</html>
+
+
+
+
+
+
+

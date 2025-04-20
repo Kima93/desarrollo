@@ -1,21 +1,19 @@
 <?php
 
-
-use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ProyectoController;
-use App\Http\Controllers\UFController;
+use Illuminate\Support\Facades\Route;
 
-Route::get('/', function () {
-    return view('welcome'); 
+
+// Rutas para ver las vistas
+Route::get('/proyectos', function () {
+    return response()->json(App\Models\Proyecto::all());
 });
+Route::get('/proyectos', [ProyectoController::class, 'index']); // Mostrar todos los proyectos
+Route::get('/proyectos/crear', [ProyectoController::class, 'create']); // Mostrar formulario para crear proyecto
+Route::get('/proyectos/{id}', [ProyectoController::class, 'show']); // Ver un proyecto por ID
+Route::get('/proyectos/{id}/editar', [ProyectoController::class, 'edit']); // Formulario para editar un proyecto
+Route::post('/proyectos', [ProyectoController::class, 'store']); // Guardar nuevo proyecto
+Route::put('/proyectos/{id}', [ProyectoController::class, 'update']); // Actualizar un proyecto
+Route::delete('/proyectos/{id}', [ProyectoController::class, 'destroy']); // Eliminar un proyecto
 
-Route::get('/', [UFController::class, 'mostrarUf']);
-Route::get('/uf-value', [UFController::class, 'getUFValue']);
-Route::get('/proyectos', [ProyectoController::class, 'index'])->name('proyectos.index');
-Route::get('/proyectos/create', [ProyectoController::class, 'create'])->name('proyectos.create');
-Route::post('/proyectos', [ProyectoController::class, 'store'])->name('proyectos.store');
-Route::get('/proyectos/{id}/edit', [ProyectoController::class, 'edit'])->name('proyectos.edit');
-Route::put('/proyectos/{id}', [ProyectoController::class, 'update'])->name('proyectos.update');
-Route::delete('/proyectos/{id}', [ProyectoController::class, 'destroy'])->name('proyectos.destroy');
-Route::get('/proyectos/{id}', [ProyectoController::class, 'show'])->name('proyectos.show');
-Route::resource('proyectos', ProyectoController::class);
+

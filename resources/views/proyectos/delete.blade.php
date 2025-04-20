@@ -2,20 +2,20 @@
 <html>
 <head>
     <title>Eliminar Proyecto</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
 </head>
-<body>
-    <h1>¿Estás seguro que deseas eliminar este proyecto?</h1>
-
-    <p><strong>{{ $proyecto->nombre }}</strong></p>
-    <p>{{ $proyecto->descripcion }}</p>
-
-    <form method="POST" action="{{ route('proyectos.destroy', $proyecto->id) }}">
-        @csrf
-        @method('DELETE')
-        <button type="submit">Eliminar</button>
-    </form>
-
-    <a href="{{ route('proyectos.index') }}">Cancelar</a>
+<body class="p-4">
+    <div class="container">
+        <h2>Eliminar Proyecto</h2>
+        <p>¿Estás seguro de que deseas eliminar el proyecto <strong>{{ $proyecto->nombre }}</strong>?</p>
+        <form action="{{ route('proyectos.destroy', $proyecto->id) }}" method="POST">
+            @csrf
+            @method('DELETE')
+            <button type="submit" class="btn btn-danger">Eliminar</button>
+            <a href="{{ route('proyectos.index') }}" class="btn btn-secondary">Cancelar</a>
+        </form>
+    </div>
 </body>
 </html>
+
 

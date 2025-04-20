@@ -2,23 +2,19 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
 class Proyecto extends Model
 {
-    
-    protected $table = 'proyectos';
+    use HasFactory;
 
-    
     protected $fillable = [
         'nombre',
         'descripcion',
-        'fecha_inicio',
-        'estado',
         'responsable',
-        'monto',
+        'fecha_inicio',
+        'monto'
     ];
-
-    
-    public $timestamps = false;
 }
+
