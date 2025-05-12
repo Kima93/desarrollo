@@ -7,61 +7,55 @@ use Illuminate\Http\Request;
 
 class ProyectoController extends Controller
 {
-    // ✅ Método para API (respuesta en JSON)
-    public function apiIndex()
+    public function index()
+{
+    $proyectos = Proyecto::all(); // <-- consulta a la base de datos
+    return response()->json($proyectos);
+}
+
+public function create()
+{
+    return view('proyectos.create');
+}
+
+public function store(Request $request)
     {
-        return response()->json(Proyecto::all());
+        $request->validate([
+            'nombre' => 'required|string|max:255',
+        ]);
+
+        Proyecto::create([
+            'nombre' => $request->nombre,
+        ]);
+
+        return redirect('/proyectos')->with('success', 'Proyecto creado correctamente.');
     }
 
-    // Mostrar todos los proyectos (vista)
-    public function index(Request $request)
-    {
-        $proyectos = Proyecto::all();
-        return view('proyectos.index', compact('proyectos'));
-    }
-
-    // Mostrar formulario para crear proyecto
-    public function create()
-    {
-        return view('proyectos.create');
-    }
-
-    // Mostrar un proyecto específico por ID
     public function show($id)
-    {
-        $proyecto = Proyecto::findOrFail($id);
-        return view('proyectos.show', compact('proyecto'));
-    }
+{
+    $proyecto = Proyecto::findOrFail($id);  // Encuentra el proyecto por ID o lanza un error 404
+    return view('proyectos.show', compact('proyecto'));
+}
 
-    // Mostrar formulario para editar un proyecto
-    public function edit($id)
-    {
-        $proyecto = Proyecto::findOrFail($id);
-        return view('proyectos.edit', compact('proyecto'));
-    }
-
-    // Guardar un nuevo proyecto
-    public function store(Request $request)
-    {
-        Proyecto::create($request->all());
-        return redirect('/proyectos');
-    }
-
-    // Actualizar un proyecto
+   public function edit($id)
+{
+    $proyecto = Proyecto::findOrFail($id);  // Encuentra el proyecto o lanza un error 404
+    return view('proyectos.edit', compact('proyecto'));
+}
     public function update(Request $request, $id)
-    {
-        $proyecto = Proyecto::findOrFail($id);
-        $proyecto->update($request->all());
-        return redirect('/proyectos');
-    }
+{
+    $request->validate([
+        'nombre' => 'required|string|max:255',
+    ]);
 
-    // Eliminar un proyecto
-    public function destroy($id)
-    {
-        $proyecto = Proyecto::findOrFail($id);
-        $proyecto->delete();
-        return redirect('/proyectos');
-    }
+    $proyecto = Proyecto::findOrFail($id);
+    $proyecto->nombre = $request->nombre;
+    $proyecto->save();
+
+    return redirect()->route('proyectos.index')->with('success', 'Proyecto actualizado correctamente.');
+}
+
+
 }
 
 

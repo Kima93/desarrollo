@@ -2,18 +2,34 @@
 
 use App\Http\Controllers\ProyectoController;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\AuthController;
+use App\Http\Controllers\RegisterController;
 
 
-// Rutas para ver las vistas
-Route::get('/proyectos', function () {
-    return response()->json(App\Models\Proyecto::all());
+Route::middleware(['jwt.auth'])->group(function () {
+    Route::get('/proyectos', [ProyectoController::class, 'index']);
+    Route::get('/proyectos/create', [ProyectoController::class, 'create']);
+    Route::post('/proyectos', [ProyectoController::class, 'store']);
+    Route::get('/proyectos/{id}', [ProyectoController::class, 'show']);
+    Route::get('/proyectos/{id}/edit', [ProyectoController::class, 'edit']);
+    Route::put('/proyectos/{id}', [ProyectoController::class, 'update']);
+    Route::delete('/proyectos/{id}', [ProyectoController::class, 'destroy']);
 });
-Route::get('/proyectos', [ProyectoController::class, 'index']); // Mostrar todos los proyectos
-Route::get('/proyectos/crear', [ProyectoController::class, 'create']); // Mostrar formulario para crear proyecto
-Route::get('/proyectos/{id}', [ProyectoController::class, 'show']); // Ver un proyecto por ID
-Route::get('/proyectos/{id}/editar', [ProyectoController::class, 'edit']); // Formulario para editar un proyecto
-Route::post('/proyectos', [ProyectoController::class, 'store']); // Guardar nuevo proyecto
-Route::put('/proyectos/{id}', [ProyectoController::class, 'update']); // Actualizar un proyecto
-Route::delete('/proyectos/{id}', [ProyectoController::class, 'destroy']); // Eliminar un proyecto
 
 
+
+Route::post('/login', [AuthController::class, 'login']);
+Route::get('/register', [AuthController::class, 'showRegister'])->name('register.form');
+
+Route::get('/login', function () {
+    return view('auth.login');
+})->name('login');
+
+Route::post('/register', [RegisterController::class, 'store'])->name('register');
+
+Route::get('/register', function () {
+    return view('auth.register');
+});
+
+Route::get('/proyectos/create', [ProyectoController::class, 'create']);
+Route::post('/proyectos', [ProyectoController::class, 'store'])->name('proyectos.store');

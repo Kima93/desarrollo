@@ -3,27 +3,27 @@
 namespace Database\Seeders;
 
 use Illuminate\Database\Seeder;
-use Illuminate\Support\Facades\DB;
+use App\Models\Proyecto;
 
 class ProyectoSeeder extends Seeder
 {
     public function run()
     {
-        DB::table('proyectos')->insert([
-            [
-                'nombre' => 'Proyecto B',
-                'fecha_inicio' => '2024-01-01',
-                'estado' => 'Activo',
-                'responsable' => 'Juan',
-                'monto' => 5000
-            ],
-            [
-                'nombre' => 'Proyecto C',
-                'fecha_inicio' => '2024-02-01',
-                'estado' => 'En progreso',
-                'responsable' => 'María',
-                'monto' => 10000
-            ]
-            ]);
-    }   
+        Proyecto::create([
+            'nombre' => 'Sistema de Inventario',
+            'fecha_inicio' => '2024-01-15',
+            'estado' => 'En progreso',
+            'responsable' => 'Juan Pérez',
+            'monto' => 500000.00,
+            'created_by' => 1, // El ID de usuario Admin
+        ]);
+        Proyecto::create([
+            'nombre' => 'Aplicación Móvil',
+            'fecha_inicio' => '2024-03-01',
+            'estado' => 'Completado',
+            'responsable' => 'Admin',
+            'monto' => 350000.00,
+            'created_by' => 2, // El ID de usuario Juan Pérez
+        ]);
+    }
 }
